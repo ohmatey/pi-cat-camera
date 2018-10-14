@@ -41,11 +41,11 @@ io.on('connection', socket => {
   })
 })
 
-http.listen(3000, function() {
+http.listen(3000, () => {
   console.log('listening on *:3000')
 })
 
-const stopStreaming () => {
+const stopStreaming = () => {
   if (Object.keys(sockets).length == 0) {
     app.set('watchingFile', false)
     if (proc) proc.kill()
