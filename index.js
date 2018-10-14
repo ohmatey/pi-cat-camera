@@ -59,7 +59,7 @@ function startStreaming(io) {
     return
   }
 
-  var args = ["-w", "640", "-h", "480", "-o", "./public/image_stream.jpg", "-t", "999999999", "-tl", "50"]
+  var args = ["-w", "640", "-h", "480", "-o", "./public/image_stream.jpg", "-t", "999999999", "-tl", "10"]
   proc = spawn('raspistill', args)
 
   console.log('Watching for changes...')
