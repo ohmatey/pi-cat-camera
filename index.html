@@ -27,7 +27,7 @@
   var socket = io()
   socket.on('liveStream', function(url) {
     console.log(url)
-    $('#stream').attr('src', url)
+    $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
     $('.start').hide()
   })
 
