@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pi-camera": "^1.2.1"
+    "pi-camera": "^1.2.1",
+    "socket.io": "^2.1.1"
   }
 }
