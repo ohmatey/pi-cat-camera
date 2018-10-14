@@ -5,7 +5,7 @@ const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
 const Canvas = require('./kittydar/node_modules/canvas')
-
+console.log('-->')
 const kittydar = require('./kittydar/kittydar')
 
 const spawn = require('child_process').spawn
