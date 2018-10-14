@@ -4,8 +4,8 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
-const Canvas = require('canvas')
-console.log(Canvas)
+const Canvas = require('./kittydar/kittydar/node_modules/canvas')
+
 const kittydar = require('./kittydar/kittydar')
 
 const spawn = require('child_process').spawn
