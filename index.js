@@ -4,7 +4,7 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
-
+const Canvas = require('kittydar/node_modules/canvas')
 
 const kittydar = require('./kittydar/kittydar')
 
