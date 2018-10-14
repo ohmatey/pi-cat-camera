@@ -96,7 +96,7 @@ const startStreaming = io => {
         ctx.strokeStyle = 'rgba(255, 64, 129, 0.8)'
         ctx.lineWidth = 2
 
-        for (let i = 0 i < cats.length i++) {
+        for (let i = 0; i < cats.length; i++) {
           let cat = cats[i]
           console.log(cat)
           ctx.strokeRect(cat.x, cat.y, cat.width, cat.height)
