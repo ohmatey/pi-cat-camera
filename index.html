@@ -11,10 +11,10 @@
 
   <style type="text/css">
   #stream {
-    height: 99%;
-    margin: 0px auto;
-    display: block;
-    margin-top: 20px;
+    height: 99%
+    margin: 0px auto
+    display: block
+    margin-top: 20px
   }
   </style>
 
@@ -24,16 +24,16 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-  var socket = io();
+  var socket = io()
   socket.on('liveStream', function(url) {
     console.log(url)
-    $('#stream').attr('src', url);
-    $('.start').hide();
-  });
+    $('#stream').attr('src', url)
+    $('.start').hide()
+  })
 
   function startStream() {
-    socket.emit('start-stream');
-    $('.start').hide();
+    socket.emit('start-stream')
+    $('.start').hide()
   }
   </script>
 </head>
