@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^1.6.13",
+    "kittydar": "^1.0.0",
     "pi-camera": "^1.2.1",
     "socket.io": "^2.1.1"
   }
