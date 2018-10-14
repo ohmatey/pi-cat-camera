@@ -5,9 +5,10 @@ const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
 const { loadImage } = require('canvas')
+console.log(loadImage)
 
 const kittydar = require('./kittydar/kittydar')
-console.log(kittydar)
+
 const spawn = require('child_process').spawn
 var proc
 
