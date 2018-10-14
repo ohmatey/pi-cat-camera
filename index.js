@@ -63,33 +63,30 @@ const startStreaming = io => {
   const args = ["-w", "640", "-h", "480", "-o", "./public/image_stream.jpg", "-t", "999999999", "-tl", "10"]
   proc = spawn('raspistill', args)
 
-  console.log('Watching for changes...')
-
-  app.set('watchingFile', true)
-
-  fs.watchFile('./public/image_stream.jpg', (current, previous) => {
-
+  proc.on('exit', code => {
     fs.readFile('./public/image_stream.jpg', (err, data) => {
       if (err) {
         return console.error(err)
       }
 
-      let img = new Canvas.Image // creating an image object
+      const img = new Canvas.Image // creating an image object
       img.src = data
 
-      let w = img.width
-      let h = img.height
+      const w = img.width
+      const h = img.height
 
-      let canvas = new Canvas(w, h)
-      let ctx = canvas.getContext('2d')
+      const canvas = new Canvas(w, h)
+      const ctx = canvas.getContext('2d')
       ctx.drawImage(img, 0, 0, w, h, 0, 0, w, h)
 
       console.log('PID ' + process.pid + ': ditecting cats in the photo...')
-      console.log(canvas)
-      let cats = kittydar.detectCats(canvas)
+
+      const cats = kittydar.detectCats(canvas)
+
       console.log('There are', cats.length, 'cats in this photo')
       console.log(cats)
-      let base64Img = ''
+
+      const base64Img = ''
 
       if(cats.length > 0) {
         // Draw a rectangle around the detected cat's face
@@ -97,7 +94,7 @@ const startStreaming = io => {
         ctx.lineWidth = 2
 
         for (let i = 0; i < cats.length; i++) {
-          let cat = cats[i]
+          const cat = cats[i]
           console.log(cat)
           ctx.strokeRect(cat.x, cat.y, cat.width, cat.height)
         }
@@ -105,7 +102,13 @@ const startStreaming = io => {
         base64Img = canvas.toDataURL() // png by default. jpeg is currently not supported by node-canvas
       }
     })
+  })
 
+  console.log('Watching for changes...')
+
+  app.set('watchingFile', true)
+
+  fs.watchFile('./public/image_stream.jpg', (current, previous) => {
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000))
   })
 
