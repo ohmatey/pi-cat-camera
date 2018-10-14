@@ -4,8 +4,7 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
-const { loadImage } = require('canvas')
-console.log(loadImage)
+
 
 const kittydar = require('./kittydar/kittydar')
 
@@ -70,15 +69,26 @@ const startStreaming = io => {
 
   fs.watchFile('./public/image_stream.jpg', (current, previous) => {
 
-    loadImage('./public/image_stream.jpg')
-      .then(img => {
-        console.log(img)
-        const cats = kittydar.detectCats(img);
+    fs.readFile('./public/image_stream.jpg', (err, data) => {
+      const img = new Canvas.Image
+      img.src = data
 
-        console.log("there are", cats.length, "cats in this photo");
+      let w = img.width
+      let h = img.height
 
-        console.log(cats[0]);
-      })
+      let canvas = new Canvas(w, h)
+      let ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0, w, h, 0, 0, w, h)
+
+      const cats = kittydar.detectCats(canvas)
+      var base64Img
+
+      if(cats.length > 0) {
+        base64Img = canvas.toDataURL()
+      }
+
+      console.log(cats)
+    })
 
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000))
   })
