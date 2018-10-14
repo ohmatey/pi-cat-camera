@@ -70,24 +70,40 @@ const startStreaming = io => {
   fs.watchFile('./public/image_stream.jpg', (current, previous) => {
 
     fs.readFile('./public/image_stream.jpg', (err, data) => {
-      const img = new Canvas.Image
-      img.src = data
+      if (err) {
+      return console.error(err);
+    }
+    let img = new Canvas.Image; // creating an image object
+    img.src = data;
 
-      let w = img.width
-      let h = img.height
+    let w = img.width;
+    let h = img.height;
 
-      let canvas = new Canvas(w, h)
-      let ctx = canvas.getContext('2d')
-      ctx.drawImage(img, 0, 0, w, h, 0, 0, w, h)
+    let canvas = new Canvas(w, h);
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, w, h, 0, 0, w, h);
 
-      const cats = kittydar.detectCats(canvas)
-      var base64Img
+    console.log('PID ' + process.pid + ': ditecting cats in the photo...');
 
-      if(cats.length > 0) {
-        base64Img = canvas.toDataURL()
+    let cats = kittydar.detectCats(canvas);
+    console.log('There are', cats.length, 'cats in this photo');
+
+    let base64Img = '';
+
+    if(cats.length > 0) {
+
+      // Draw a rectangle around the detected cat's face
+      ctx.strokeStyle = 'rgba(255, 64, 129, 0.8)';
+      ctx.lineWidth = 2;
+
+      for (let i = 0; i < cats.length; i++) {
+        let cat = cats[i];
+        console.log(cat);
+        ctx.strokeRect(cat.x, cat.y, cat.width, cat.height);
       }
 
-      console.log(cats)
+      base64Img = canvas.toDataURL(); // png by default. jpeg is currently not supported by node-canvas
+    }
     })
 
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000))
