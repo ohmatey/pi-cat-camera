@@ -22,7 +22,7 @@ app.get('/', function(req, res) {
 const sockets = {}
 
 io.on('connection', socket => {
-
+  io.sockets.emit('liveStreamMessage', 'find a 😺')
   sockets[socket.id] = socket
   console.log("Total clients connected : ", Object.keys(sockets).length)
 
