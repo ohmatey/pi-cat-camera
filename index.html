@@ -4,31 +4,16 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stream My Aquarium</title>
+  <title>Cat Ditector</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" rel="stylesheet">
 
-  <style type="text/css">
-  #stream {
-    height: 99%
-    margin: 0px auto
-    display: block
-    margin-top: 20px
-  }
-  </style>
-
-  <!-- jQuery -->
-  <script src="http://code.jquery.com/jquery.js"></script>
-  <!-- Bootstrap JavaScript -->
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     const socket = io()
 
     socket.on('liveStream', url => {
       $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
-      $('.start').hide()
     })
 
     socket.on('liveStreamMessage', message => {
@@ -37,25 +22,46 @@
 
     const startStream = () => {
       socket.emit('start-stream')
-      $('.start').hide()
     }
   </script>
 </head>
 
-<body class="container">
-  <h1 class="text-center">
-    Cat detector
-    <small>Powered by PI</small>
-  </h1>
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Cat detector
+          </h1>
+          <h2 class="subtitle">
+            Capture images and check for cats.
+          </h2>
+        </div>
+      </div>
+    </section>
 
-  <h3 id="liveStreamMessage"></h3>
+    <section class="section">
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <button type="button" id="" class="btn btn-info" onclick="startStream()">Start Camera</button>
+          </div>
 
-  <hr>
+          <div class="column is-four-fifths">
+            <img src="" id="stream">
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start Camera</button>
-
-  <div class="row">
-    <img src="" id="stream">
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong>Cat detector</strong>
+        </p>
+      </div>
+    </footer>
   </div>
 
 </body>
