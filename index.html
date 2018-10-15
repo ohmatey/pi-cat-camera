@@ -31,7 +31,7 @@
   })
 
   socket.on('liveStreamMessage', message => {
-    document.getElementById('liveStreamMessage').innerHtml = liveStreamMessage
+    document.getElementById('liveStreamMessage').innerHtml = message
   })
 
   function startStream() {
