@@ -5,7 +5,7 @@ const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
 const Canvas = require('./kittydar/node_modules/canvas')
-console.log('-->')
+
 const kittydar = require('./kittydar/kittydar')
 
 const spawn = require('child_process').spawn
@@ -60,6 +60,8 @@ const startStreaming = io => {
     return
   }
 
+  io.sockets.emit('liveStreamMessage', 'Streaming')
+
   const args = ["-w", "640", "-h", "480", "-o", "./public/image_stream.jpg", "-t", "999999999", "-tl", "10"]
   proc = spawn('raspistill', args)
 
@@ -68,6 +70,8 @@ const startStreaming = io => {
       if (err) {
         return console.error(err)
       }
+
+      io.sockets.emit('liveStreamMessage', 'found image')
 
       const img = new Canvas.Image // creating an image object
       img.src = data
@@ -88,7 +92,8 @@ const startStreaming = io => {
 
       const base64Img = ''
 
-      if(cats.length > 0) {
+      if (cats.length > 0) {
+        io.sockets.emit('liveStreamMessage', 'found a 😺 in the image!')
         // Draw a rectangle around the detected cat's face
         ctx.strokeStyle = 'rgba(255, 64, 129, 0.8)'
         ctx.lineWidth = 2
@@ -99,7 +104,9 @@ const startStreaming = io => {
           ctx.strokeRect(cat.x, cat.y, cat.width, cat.height)
         }
 
-        base64Img = canvas.toDataURL() // png by default. jpeg is currently not supported by node-canvas
+        base64Img = canvas.toDataURL()
+      } else {
+        io.sockets.emit('liveStreamMessage', 'No cats found 😢')
       }
     })
   })

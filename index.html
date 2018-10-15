@@ -24,11 +24,14 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-  var socket = io()
+  const socket = io()
   socket.on('liveStream', function(url) {
-    console.log(url)
     $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
     $('.start').hide()
+  })
+
+  socket.on('liveStreamMessage', message => {
+    document.getElementById('liveStreamMessage').innerHtml = liveStreamMessage
   })
 
   function startStream() {
@@ -39,9 +42,12 @@
 </head>
 
 <body class="container">
-  <h1 class="text-center">My Aquarium
+  <h1 class="text-center">
+    Cat detector
     <small>Powered by PI</small>
   </h1>
+
+  <h3 id="liveStreamMessage"></h3>
 
   <hr>
 
