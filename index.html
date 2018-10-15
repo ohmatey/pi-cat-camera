@@ -24,21 +24,21 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
-  const socket = io()
-  socket.on('liveStream', function(url) {
-    $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
-    $('.start').hide()
-  })
+    const socket = io()
 
-  socket.on('liveStreamMessage', message => {
-    console.log(message)
-    document.getElementById('liveStreamMessage').innerHtml = message
-  })
+    socket.on('liveStream', url => {
+      $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
+      $('.start').hide()
+    })
 
-  function startStream() {
-    socket.emit('start-stream')
-    $('.start').hide()
-  }
+    socket.on('liveStreamMessage', message => {
+      document.getElementById('liveStreamMessage').innerHTML = message
+    })
+
+    const startStream = () => {
+      socket.emit('start-stream')
+      $('.start').hide()
+    }
   </script>
 </head>
 
