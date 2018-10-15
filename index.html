@@ -13,7 +13,7 @@
     const socket = io()
 
     socket.on('liveStream', url => {
-      $('#stream').attr('src', 'http://192.168.1.106:3000/' + url)
+      document.getElementById('stream').setAttribute('src', 'http://192.168.1.106:3000/' + url)
     })
 
     socket.on('liveStreamMessage', message => {
