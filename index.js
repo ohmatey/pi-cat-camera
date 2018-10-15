@@ -4,8 +4,8 @@ const http = require('http').Server(app)
 const io = require('socket.io')(http)
 const fs = require('fs')
 const path = require('path')
-const Canvas = require('./kittydar/node_modules/canvas')
 
+const Canvas = require('./kittydar/node_modules/canvas')
 const kittydar = require('./kittydar/kittydar')
 
 const spawn = require('child_process').spawn
@@ -15,7 +15,7 @@ app.use('/', express.static(path.join(__dirname, 'stream')))
 
 app.use(express.static('public'))
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
@@ -73,7 +73,7 @@ const startStreaming = io => {
 
       io.sockets.emit('liveStreamMessage', 'found image')
 
-      const img = new Canvas.Image // creating an image object
+      const img = new Canvas.Image
       img.src = data
 
       const w = img.width
@@ -81,14 +81,10 @@ const startStreaming = io => {
 
       const canvas = new Canvas(w, h)
       const ctx = canvas.getContext('2d')
+      
       ctx.drawImage(img, 0, 0, w, h, 0, 0, w, h)
 
-      console.log('PID ' + process.pid + ': ditecting cats in the photo...')
-
       const cats = kittydar.detectCats(canvas)
-
-      console.log('There are', cats.length, 'cats in this photo')
-      console.log(cats)
 
       const base64Img = ''
 
